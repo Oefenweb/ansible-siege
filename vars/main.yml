@@ -1,0 +1,9 @@
+# vars file for siege
+---
+siege_dependencies:
+  - build-essential
+
+siege_build_path: /var/lib/ansible/siege/build
+
+siege_download_path: /var/lib/ansible/siege/downloads
+siege_download_url: http://download.joedog.org/siege/siege-latest.tar.gz

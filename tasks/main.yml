@@ -1,0 +1,124 @@
+# tasks file for siege
+---
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+  with_items: siege_dependencies
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-dependencies
+
+- name: create (download) directory
+  file:
+    path: "{{ siege_download_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-download
+
+- name: download (latest)
+  get_url:
+    url: "{{ siege_download_url }}"
+    dest: "{{ siege_download_path }}/{{ siege_download_url | basename }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: true
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-download
+
+- name: create (build) directory
+  file:
+    path: "{{ siege_build_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-build
+
+- name: version check
+  shell: "tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1"
+  changed_when: false
+  register: version_check
+  tags:
+    - configuration
+    - siege, siege-install
+    - siege-install-build
+
+- name: extract
+  unarchive:
+    src: "{{ siege_download_path }}/{{ siege_download_url | basename }}"
+    dest: "{{ siege_build_path }}"
+    creates: "{{ siege_build_path }}/{{ version_check.stdout }}"
+    copy: false
+  register: result
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-build
+
+- name: configure
+  command: "./configure"
+  args:
+    chdir: "{{ siege_build_path }}/{{ version_check.stdout }}"
+  when: result | changed
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-build
+    - siege-build-configure
+
+- name: make
+  command: "make"
+  args:
+    chdir: "{{ siege_build_path }}/{{ version_check.stdout }}"
+  when: result | changed
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-build
+    - siege-build-make
+
+- name: make install
+  command: "make install"
+  args:
+    chdir: "{{ siege_build_path }}/{{ version_check.stdout }}"
+  when: result | changed
+  tags:
+    - configuration
+    - siege
+    - siege-install
+    - siege-install-build
+    - siege-build-make-install
+
+- name: create configuration file
+  template:
+    src: usr/local/etc/siegerc.j2
+    dest: "{{ '/etc/siegerc' if ansible_lsb.codename in ['lucid', 'squeeze'] else '/usr/local/etc/siegerc' }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - configuration
+    - siege
+    - siege-configuration
