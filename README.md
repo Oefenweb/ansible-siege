@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Oefenweb/ansible-siege.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-siege) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-siege-blue.svg)](https://galaxy.ansible.com/list#/roles/5962)
 
-Set up the latest version of siege in Ubuntu-like systems.
+Set up the latest version of [siege](https://www.joedog.org/siege-home/) in Debian-like systems.
 
 #### Requirements
 
@@ -22,7 +22,7 @@ None
 ---
 - hosts: all
   roles:
-  - siege
+    - siege
 ```
 
 #### License
