@@ -59,7 +59,8 @@
   register: version_check
   tags:
     - configuration
-    - siege, siege-install
+    - siege
+    - siege-install
     - siege-install-build
 
 - name: extract
@@ -85,7 +86,7 @@
     - siege
     - siege-install
     - siege-install-build
-    - siege-build-configure
+    - siege-install-build-configure
 
 - name: make
   command: "make"
@@ -97,7 +98,7 @@
     - siege
     - siege-install
     - siege-install-build
-    - siege-build-make
+    - siege-install-build-make
 
 - name: make install
   command: "make install"
@@ -109,7 +110,7 @@
     - siege
     - siege-install
     - siege-install-build
-    - siege-build-make-install
+    - siege-install-build-make-install
 
 - name: create configuration file
   template:
