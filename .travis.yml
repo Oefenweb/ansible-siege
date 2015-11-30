@@ -36,8 +36,8 @@ branches:
 before_install:
   - sudo apt-get update -qq
 
-  # Remove socat
-  - sudo apt-get remove --purge socat
+  # Remove siege
+  - sudo apt-get remove --purge siege
 
 install:
   # Install Ansible.
