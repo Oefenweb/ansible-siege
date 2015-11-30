@@ -10,7 +10,7 @@ None
 
 #### Variables
 
-None
+* `siege_remove_distro_version`: [default: `true`]: Whether or not to remove the distribution version
 
 ## Dependencies
 

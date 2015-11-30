@@ -13,6 +13,18 @@
     - siege-install
     - siege-install-dependencies
 
+- name: remove (distro version)
+  apt:
+    name: siege
+    state: absent
+    purge: true
+  when: siege_remove_distro_version
+  tags:
+    - configuration
+    - siege
+    - siege-remove
+    - siege-remove-distro
+
 - name: create (download) directory
   file:
     path: "{{ siege_download_path }}"
