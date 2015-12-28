@@ -23,7 +23,7 @@
 # Signify verbose mode, true turns on verbose output
 # ex: verbose = true|false
 #
-verbose = true
+verbose = {{ 'true' if siege_configuration_verbose | default(true) | bool else 'false' }}
 
 #
 # Quiet mode
@@ -34,7 +34,7 @@ verbose = true
 # extremely quiet. This was added primarily for scripting
 # ex: quiet = true|false
 #
-quiet = false
+quiet = {{ 'true' if siege_configuration_quiet | default(false) | bool else 'false' }}
 
 #
 # Get method - select an HTTP method to use when siege
@@ -104,13 +104,13 @@ limit = {{ siege_configuration_limit | default(255) }}
 # You can turn this message off with this directive.
 # ex: show-logfile = false
 #
-show-logfile = true
+show-logfile = {{ 'true' if siege_configuration_show_logfile | default(true) | bool else 'false' }}
 
 #
 # Default logging status, true turns logging on.
 # ex: logging = true|false
 #
-logging = true
+logging = {{ 'true' if siege_configuration_logging | default(true) | bool else 'false' }}
 
 #
 # Logfile, the default siege logfile is $PREFIX/var/siege.log
@@ -131,7 +131,7 @@ logging = true
 # ex: protocol = HTTP/1.1
 #     protocol = HTTP/1.0
 #
-protocol = HTTP/1.1
+protocol = {{ siege_configuration_protocol | default('HTTP/1.1') }}
 
 #
 # Chunked encoding is required by HTTP/1.1 protocol
@@ -139,7 +139,7 @@ protocol = HTTP/1.1
 #
 # ex: chunked = true
 #
-chunked = true
+chunked = {{ 'true' if siege_configuration_chunked | default(true) | bool else 'false' }}
 
 #
 # Cache revalidation.
@@ -152,7 +152,7 @@ chunked = true
 #
 # ex: cache = true
 #
-cache = false
+cache = {{ 'true' if siege_configuration_cache | default(false) | bool else 'false' }}
 
 #
 # Connection directive. Options "close" and "keep-alive"
@@ -173,7 +173,7 @@ connection = {{ siege_configuration_connection | default('close') }}
 # Default number of simulated  concurrent users
 # ex: concurrent = 25
 #
-concurrent = 15
+concurrent = {{ siege_configuration_concurrent | default(15) }}
 
 #
 # Default duration of the siege.  The right hand argument has
@@ -230,7 +230,7 @@ concurrent = 15
 #
 # ex: delay = 0.5
 #
-delay = 1
+delay = {{ siege_configuration_delay | default(1) }}
 
 #
 # Connection timeout value. Set the value in seconds for
@@ -276,7 +276,7 @@ delay = 1
 # urls.txt file in order from first to last and back again.
 # ex: internet = true
 #
-internet = false
+internet = {{ 'true' if siege_configuration_internet | default(false) | bool else 'false' }}
 
 #
 # Default benchmarking value, If true, there is NO delay
@@ -285,7 +285,7 @@ internet = false
 # for load testing.
 # ex: benchmark = true
 #
-benchmark = false
+benchmark = {{ 'true' if siege_configuration_benchmark | default(false) | bool else 'false' }}
 
 #
 # Set the siege User-Agent to identify yourself at the
@@ -308,7 +308,7 @@ benchmark = false
 # ex: accept-encoding = *
 #     accept-encoding = gzip
 #     accept-encoding = compress;q=0.5;gzip;q=1
-accept-encoding = gzip
+accept-encoding = {{ siege_configuration_accept_encoding | default('gzip') }}
 
 #
 # URL escaping was added in version 3.0.3. You may use this
@@ -321,7 +321,7 @@ accept-encoding = gzip
 #
 # ex: url-escaping = false
 #
-url-escaping = true
+url-escaping = {{ 'true' if siege_configuration_url_escaping | default(true) | bool else 'false' }}
 
 #
 # TURN OFF THAT ANNOYING SPINNER!
@@ -334,7 +334,7 @@ url-escaping = true
 #
 # ex: spinner = false
 #
-spinner = true
+spinner = {{ 'true' if siege_configuration_spinner | default(true) | bool else 'false' }}
 
 #
 # WWW-Authenticate. Currently siege supports two types
@@ -413,7 +413,7 @@ spinner = true
 #
 # ex: unique = false
 #
-unique = true
+unique = {{ 'true' if siege_configuration_spinner | default(true) | bool else 'false' }}
 
 #
 # ssl-cert
