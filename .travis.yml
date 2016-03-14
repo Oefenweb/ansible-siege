@@ -44,7 +44,7 @@ before_install:
   - sudo apt-get update -qq
 
   # Remove siege
-  - sudo apt-get remove --purge siege
+  - sudo apt-get remove --purge --yes siege
 
 install:
   # Install Ansible.
