@@ -3,10 +3,10 @@
 - name: install dependencies
   apt:
     name: "{{ item }}"
-    state: latest
+    state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: siege_dependencies
+  with_items: "{{ siege_dependencies }}"
   tags:
     - configuration
     - siege
@@ -66,9 +66,9 @@
     - siege-install-build
 
 - name: version check
-  shell: "tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1"
+  shell: tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
   changed_when: false
-  register: version_check
+  register: _version_check
   tags:
     - configuration
     - siege
@@ -79,9 +79,9 @@
   unarchive:
     src: "{{ siege_download_path }}/{{ siege_download_url | basename }}"
     dest: "{{ siege_build_path }}"
-    creates: "{{ siege_build_path }}/{{ version_check.stdout }}"
+    creates: "{{ siege_build_path }}/{{ _version_check.stdout }}"
     copy: false
-  register: result
+  register: _result
   tags:
     - configuration
     - siege
@@ -89,10 +89,10 @@
     - siege-install-build
 
 - name: configure
-  command: "./configure"
+  command: ./configure
   args:
-    chdir: "{{ siege_build_path }}/{{ version_check.stdout }}"
-  when: result | changed
+    chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
+  when: _result | changed
   tags:
     - configuration
     - siege
@@ -101,10 +101,10 @@
     - siege-install-build-configure
 
 - name: make
-  command: "make"
+  command: make
   args:
-    chdir: "{{ siege_build_path }}/{{ version_check.stdout }}"
-  when: result | changed
+    chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
+  when: _result | changed
   tags:
     - configuration
     - siege
@@ -113,10 +113,10 @@
     - siege-install-build-make
 
 - name: make install
-  command: "make install"
+  command: make install
   args:
-    chdir: "{{ siege_build_path }}/{{ version_check.stdout }}"
-  when: result | changed
+    chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
+  when: _result | changed
   tags:
     - configuration
     - siege
