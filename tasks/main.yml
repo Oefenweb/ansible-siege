@@ -92,7 +92,7 @@
   command: ./configure
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
-  when: _result | changed
+  when: _result is changed
   tags:
     - configuration
     - siege
@@ -104,7 +104,7 @@
   command: make
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
-  when: _result | changed
+  when: _result is changed
   tags:
     - configuration
     - siege
@@ -116,7 +116,7 @@
   command: make install
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
-  when: _result | changed
+  when: _result is changed
   tags:
     - configuration
     - siege
