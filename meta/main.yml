@@ -1,6 +1,7 @@
 # meta file for siege
 ---
 galaxy_info:
+  role_name: siege
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
   description: Set up the latest version of siege in Debian-like systems
