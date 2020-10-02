@@ -2,11 +2,10 @@
 ---
 - name: install dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ siege_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: "{{ siege_dependencies }}"
   tags:
     - configuration
     - siege
@@ -66,7 +65,10 @@
     - siege-install-build
 
 - name: version check
-  shell: tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
+  shell: >
+    tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
+  args:
+    warn: false
   changed_when: false
   register: _version_check
   tags:
@@ -89,7 +91,8 @@
     - siege-install-build
 
 - name: configure
-  command: ./configure
+  command: >
+    ./configure
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
   when: _result is changed
@@ -101,7 +104,8 @@
     - siege-install-build-configure
 
 - name: make
-  command: make
+  command: >
+    make
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
   when: _result is changed
@@ -113,7 +117,8 @@
     - siege-install-build-make
 
 - name: make install
-  command: make install
+  command: >
+    make install
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
   when: _result is changed
