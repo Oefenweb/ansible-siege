@@ -132,7 +132,7 @@
 - name: create configuration file
   template:
     src: usr/local/etc/siegerc.j2
-    dest: "{{ '/etc/siegerc' if ansible_lsb.codename in ['lucid', 'squeeze'] else '/usr/local/etc/siegerc' }}"
+    dest: "{{ '/etc/siegerc' if ansible_distribution_release in ['lucid', 'squeeze'] else '/usr/local/etc/siegerc' }}"
     owner: root
     group: root
     mode: 0644
