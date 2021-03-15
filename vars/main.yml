@@ -1,4 +1,4 @@
-# vars file for siege
+# vars file
 ---
 siege_dependencies:
   - build-essential

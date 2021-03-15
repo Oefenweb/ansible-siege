@@ -1,3 +1,3 @@
-# defaults file for siege
+# defaults file
 ---
 siege_remove_distro_version: true
