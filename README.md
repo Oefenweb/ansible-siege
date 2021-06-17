@@ -1,6 +1,6 @@
 ## siege
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-siege.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-siege)
+[![CI](https://github.com/Oefenweb/ansible-siege/workflows/CI/badge.svg)](https://github.com/Oefenweb/ansible-siege/actions?query=workflow%3ACI)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-siege-blue.svg)](https://galaxy.ansible.com/Oefenweb/siege)
 
 Set up the latest version of [siege](https://www.joedog.org/siege-home/) in Debian-like systems.
