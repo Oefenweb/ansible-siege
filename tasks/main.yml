@@ -64,11 +64,9 @@
     - siege-install
     - siege-install-build
 
-- name: version check
+- name: version check  # noqa command-instead-of-module
   shell: >
     tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
-  args:
-    warn: false
   changed_when: false
   register: _version_check
   tags:
