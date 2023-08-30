@@ -64,7 +64,7 @@
     - siege-install
     - siege-install-build
 
-- name: version check  # noqa command-instead-of-module
+- name: version check  # noqa command-instead-of-module, risky-shell-pipe
   ansible.builtin.shell: >
     tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
   changed_when: false
@@ -93,6 +93,7 @@
     ./configure
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
+  changed_when: true
   when: _result is changed
   tags:
     - configuration
@@ -106,6 +107,7 @@
     make
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
+  changed_when: true
   when: _result is changed
   tags:
     - configuration
@@ -119,6 +121,7 @@
     make install
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
+  changed_when: true
   when: _result is changed
   tags:
     - configuration
