@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ siege_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
@@ -13,7 +13,7 @@
     - siege-install-dependencies
 
 - name: remove (distro version)
-  apt:
+  ansible.builtin.apt:
     name: siege
     state: absent
     purge: true
@@ -25,7 +25,7 @@
     - siege-remove-distro
 
 - name: create (download) directory
-  file:
+  ansible.builtin.file:
     path: "{{ siege_download_path }}"
     state: directory
     owner: root
@@ -38,7 +38,7 @@
     - siege-install-download
 
 - name: download (latest)
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ siege_download_url }}"
     dest: "{{ siege_download_path }}/{{ siege_download_url | basename }}"
     owner: root
@@ -52,7 +52,7 @@
     - siege-install-download
 
 - name: create (build) directory
-  file:
+  ansible.builtin.file:
     path: "{{ siege_build_path }}"
     state: directory
     owner: root
@@ -65,7 +65,7 @@
     - siege-install-build
 
 - name: version check  # noqa command-instead-of-module
-  shell: >
+  ansible.builtin.shell: >
     tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
   changed_when: false
   register: _version_check
@@ -76,7 +76,7 @@
     - siege-install-build
 
 - name: extract
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ siege_download_path }}/{{ siege_download_url | basename }}"
     dest: "{{ siege_build_path }}"
     creates: "{{ siege_build_path }}/{{ _version_check.stdout }}"
@@ -89,7 +89,7 @@
     - siege-install-build
 
 - name: configure
-  command: >
+  ansible.builtin.command: >
     ./configure
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
@@ -102,7 +102,7 @@
     - siege-install-build-configure
 
 - name: make
-  command: >
+  ansible.builtin.command: >
     make
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
@@ -115,7 +115,7 @@
     - siege-install-build-make
 
 - name: make install
-  command: >
+  ansible.builtin.command: >
     make install
   args:
     chdir: "{{ siege_build_path }}/{{ _version_check.stdout }}"
@@ -128,7 +128,7 @@
     - siege-install-build-make-install
 
 - name: create configuration file
-  template:
+  ansible.builtin.template:
     src: usr/local/etc/siegerc.j2
     dest: "{{ '/etc/siegerc' if ansible_distribution_release in ['lucid', 'squeeze'] else '/usr/local/etc/siegerc' }}"
     owner: root
