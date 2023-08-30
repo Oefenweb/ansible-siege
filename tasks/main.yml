@@ -64,7 +64,7 @@
     - siege-install
     - siege-install-build
 
-- name: version check  # noqa command-instead-of-module, risky-shell-pipe
+- name: version check  # noqa command-instead-of-module risky-shell-pipe
   ansible.builtin.shell: >
     tar -ztf {{ siege_download_path }}/{{ siege_download_url | basename }} | head -n 1
   changed_when: false
