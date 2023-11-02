@@ -42,7 +42,7 @@ None
 ---
 - hosts: all
   roles:
-    - siege
+    - oefenweb.siege
 ```
 
 #### License
