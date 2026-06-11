@@ -11,7 +11,7 @@ None
 
 #### Variables
 
-* `siege_remove_distro_version`: [default: `true`]: Whether or not to remove the distribution version
+* `siege_remove_distro_version`: [default: `true`]: Whether to remove the distribution version
 
 * `siege_configuration_verbose`: [default: `true`]: Signify verbose mode
 * `siege_configuration_quiet`: [default: `false`]: Quiet mode

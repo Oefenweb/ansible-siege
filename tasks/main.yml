@@ -30,7 +30,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   tags:
     - configuration
     - siege
@@ -43,7 +43,7 @@
     dest: "{{ siege_download_path }}/{{ siege_download_url | basename }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
     force: true
   tags:
     - configuration
@@ -57,7 +57,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   tags:
     - configuration
     - siege
@@ -133,10 +133,10 @@
 - name: create configuration file
   ansible.builtin.template:
     src: usr/local/etc/siegerc.j2
-    dest: "{{ '/etc/siegerc' if ansible_distribution_release in ['lucid', 'squeeze'] else '/usr/local/etc/siegerc' }}"
+    dest: "{{ '/etc/siegerc' if ansible_facts['distribution_release'] in ['lucid', 'squeeze'] else '/usr/local/etc/siegerc' }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   tags:
     - configuration
     - siege
